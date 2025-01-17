@@ -1,0 +1,125 @@
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+        <p class="mb-4">Global Insight - Your trusted source for breaking news and analysis.</p>
+        <div class="flex justify-center space-x-4 mb-4">
+            <a href="#" class="text-blue-400 hover:underline">Privacy Policy</a>
+            <a href="#" class="text-blue-400 hover:underline">Terms of Service</a>
+            <a href="#" class="text-blue-400 hover:underline">Contact Us</a>
+        </div>
+        <div class="flex justify-center space-x-4">
+            <a href="#" class="text-blue-400 hover:underline">Facebook</a>
+            <a href="#" class="text-blue-400 hover:underline">Twitter</a>
+            <a href="#" class="text-blue-400 hover:underline">Instagram</a>
+        </div>
+        <p class="mt-4">&copy; 2025 Global Insight. All rights reserved.</p>
+    </div>
+</footer>
+
+//Improving the CTA Button://
+<button class="bg-blue-700 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-800">Explore News</button>
+
+Would you like this applied to all buttons or just the hero section?//
+
+<button class="bg-blue-700 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-800 transform hover:scale-105 transition-transform duration-300">Explore News</button>
+
+
+
+////////// OLD INDEX /////////////
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Insight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Top Bar -->
+    <div class="bg-blue-700 text-white text-sm py-2">
+        <div class="container mx-auto flex justify-between px-4">
+            <p>Breaking News: Stay updated with the latest global headlines!</p>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:underline">Subscribe</a></li>
+                    <li><a href="#" class="hover:underline">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center px-4 py-4">
+            <h1 class="text-3xl font-bold text-blue-700">Global Insight</h1>
+            <nav>
+                <ul class="flex space-x-6 text-gray-700 font-medium">
+                    <li><a href="#" class="hover:text-blue-700">Home</a></li>
+                    <li><a href="#" class="hover:text-blue-700">World</a></li>
+                    <li><a href="#" class="hover:text-blue-700">Politics</a></li>
+                    <li><a href="#" class="hover:text-blue-700">Business</a></li>
+                    <li><a href="#" class="hover:text-blue-700">Technology</a></li>
+                    <li><a href="#" class="hover:text-blue-700">Health</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-100 py-10">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-blue-700 mb-4">Stay Informed with Global Insight</h2>
+            <p class="text-lg text-gray-600 mb-6">Your trusted source for the latest news around the world.</p>
+            <button class="bg-blue-700 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-800">Explore News</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-10 px-4">
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold mb-6">Latest Headlines</h2>
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Example News Card -->
+                <article class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <img src="https://via.placeholder.com/300x200" alt="News Thumbnail" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold mb-2">Headline Title</h3>
+                        <p class="text-sm text-gray-600 mb-4">A brief description of the news article goes here...</p>
+                        <a href="#" class="text-blue-700 font-medium hover:underline">Read More</a>
+                    </div>
+                </article>
+                <!-- Additional news cards will be dynamically injected here -->
+            </div>
+        </section>
+
+        <!-- Featured Section -->
+        <section class="bg-gray-100 py-10 px-4 rounded-lg">
+            <h2 class="text-3xl font-bold mb-6 text-center">Featured Stories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Example Featured Story -->
+                <article class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <img src="https://via.placeholder.com/300x200" alt="Featured Story" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold mb-2">Featured Story Title</h3>
+                        <p class="text-sm text-gray-600 mb-4">Highlights and key insights about the story...</p>
+                        <a href="#" class="text-blue-700 font-medium hover:underline">Read More</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <div class="mb-4">
+                <a href="#" class="text-blue-400 hover:underline mx-2">Privacy Policy</a>
+                <a href="#" class="text-blue-400 hover:underline mx-2">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Global Insight. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/public/js/scripts.js"></script>
+</body>
+</html>

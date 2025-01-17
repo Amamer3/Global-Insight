@@ -1,0 +1,14 @@
+/* Dark mode */
+#theme-toggle.active {
+    background-color: #4a5568;
+}
+#theme-toggle.active #theme-toggle-dot {
+    transform: translateX(1.5rem);
+    background-color: #2d3748;
+}
+
+
+#carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+}
