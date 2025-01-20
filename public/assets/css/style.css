@@ -1,14 +1,37 @@
 /* Dark mode */
-#theme-toggle.active {
-    background-color: #4a5568;
+/* Default Light Mode */
+body {
+    background-color: #f7fafc;
+    color: #1a202c;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-#theme-toggle.active #theme-toggle-dot {
-    transform: translateX(1.5rem);
-    background-color: #2d3748;
+
+/* Dark Mode */
+body.dark {
+    background-color: #1a202c;
+    color: #f7fafc;
 }
+
+/* Optional: Adjust label colors for clarity */
+.text-gray-400 {
+    color: #a0aec0;
+}
+.text-gray-900 {
+    color: #1a202c;
+}
+
 
 
 #carousel {
     display: flex;
     transition: transform 0.5s ease;
 }
+
+.transition-colors {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease;
+}
+

@@ -1,95 +1,176 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Helper function to sanitize HTML
+    const sanitizeHTML = (str) => {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+    };
+
     // Sidebar Toggle
     const menuToggle = document.getElementById("menu-toggle");
     const mobileNav = document.getElementById("mobile-nav");
     const closeNav = document.getElementById("close-nav");
-    const themeToggle = document.getElementById("theme-toggle");
 
-    const openSidebar = () => {
-        if (mobileNav) mobileNav.classList.remove("-translate-x-full");
-    };
+    const openSidebar = () => mobileNav?.classList.remove("-translate-x-full");
+    const closeSidebar = () => mobileNav?.classList.add("-translate-x-full");
 
-    const closeSidebar = () => {
-        if (mobileNav) mobileNav.classList.add("-translate-x-full");
-    };
+    menuToggle?.addEventListener("click", openSidebar);
+    closeNav?.addEventListener("click", closeSidebar);
 
-    if (menuToggle) {
-        menuToggle.addEventListener("click", openSidebar);
-    }
+    // Global Variables
+    const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5502/api/news"
+    : "https://your-production-domain.com/api/news";
 
-    if (closeNav) {
-        closeNav.addEventListener("click", closeSidebar);
-    }
+    // News Containers
+    const latestNewsContainer = document.getElementById("latest-news-container");
+    const breakingNewsContainer = document.getElementById("breaking-news-container");
+    const trendingNewsContainer = document.getElementById("trending-news-container");
 
-    if (mobileNav) {
-        const navLinks = mobileNav.querySelectorAll("a");
-        navLinks.forEach(link => {
-            link.addEventListener("click", closeSidebar);
-        });
-    }
-
-    if (themeToggle) {
-        themeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark");
-            themeToggle.classList.toggle("active");
-        });
-    }
-
-    // Load More Articles
     const loadMoreButton = document.getElementById("load-more");
-    loadMoreButton.addEventListener("click", () => {
-        loadMoreButton.disabled = true;
-        loadMoreButton.textContent = "Loading...";
+    const searchInput = document.getElementById("search-input");
+    const scrollToTopButton = document.createElement("button");
+    let currentPage = 1;
 
-        setTimeout(() => {
-            const newCard = `
-                <article class="bg-white shadow-md rounded-lg overflow-hidden">
-                    <img src="https://via.placeholder.com/300x200" alt="Headline" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2">New Headline</h3>
-                        <p class="text-sm text-gray-600 mb-4">A brief description of the news article...</p>
-                        <a href="#" class="text-blue-700 hover:underline">Read More</a>
-                    </div>
-                </article>`;
-            
-            const featuredContainer = document.getElementById("featured-container");
-            featuredContainer.insertAdjacentHTML('beforeend', newCard);
+    // Create Scroll-to-Top Button
+    scrollToTopButton.className =
+        "fixed bottom-6 right-6 bg-blue-700 text-white px-4 py-2 rounded shadow hidden";
+    scrollToTopButton.textContent = "↑ Top";
+    document.body.appendChild(scrollToTopButton);
 
-            loadMoreButton.disabled = false;
-            loadMoreButton.textContent = "Load More";
-        }, 1500);
+    scrollToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // Trending News Carousel
-    const carousel = document.getElementById("carousel");
-    const prevBtn = document.getElementById("prev");
-    const nextBtn = document.getElementById("next");
-
-    const cardWidth = 300; // Card width including margin
-    const cardsToScroll = 3; // Number of cards to scroll at a time
-    const scrollStep = cardWidth * cardsToScroll; // Total scroll amount per click
-    const totalCards = carousel.children.length;
-    const visibleCards = 3; // Number of visible cards at a time
-    const maxScroll = cardWidth * (totalCards - visibleCards);
-
-    let scrollAmount = 0;
-
-    // Scroll to the left
-    prevBtn.addEventListener("click", () => {
-        scrollAmount = Math.max(0, scrollAmount - scrollStep);
-        carousel.style.transform = `translateX(-${scrollAmount}px)`;
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) {
+            scrollToTopButton.classList.remove("hidden");
+        } else {
+            scrollToTopButton.classList.add("hidden");
+        }
     });
 
-    // Scroll to the right
-    nextBtn.addEventListener("click", () => {
-        scrollAmount = Math.min(maxScroll, scrollAmount + scrollStep);
-        carousel.style.transform = `translateX(-${scrollAmount}px)`;
-    });
+    // Fetch Latest Headlines
+    const fetchLatestHeadlines = async () => {
+        latestNewsContainer.innerHTML = "";
+        addSkeletonLoaders(latestNewsContainer);
 
-    // Ensure responsive behavior for visible cards on resize
-    window.addEventListener("resize", () => {
-        scrollAmount = Math.min(scrollAmount, maxScroll);
-        carousel.style.transform = `translateX(-${scrollAmount}px)`;
-    });
+        try {
+            const response = await fetch(`${API_BASE_URL}?type=latest`);
+            if (!response.ok) throw new Error("Failed to fetch latest headlines.");
+            const articles = await response.json();
 
+            removeSkeletonLoaders(latestNewsContainer);
+
+            if (articles.length === 0) {
+                latestNewsContainer.innerHTML = '<p class="text-center text-gray-500">No latest headlines found.</p>';
+                return;
+            }
+
+            articles.forEach(article => {
+                const newCard = `
+                    <article class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
+                            <a href="${article.url || '#'}" class="text-blue-700 hover:underline">Read More</a>
+                        </div>
+                    </article>`;
+                latestNewsContainer.insertAdjacentHTML('beforeend', newCard);
+            });
+        } catch (error) {
+            console.error(error.message);
+            latestNewsContainer.innerHTML = '<p class="text-center text-red-500">Failed to load latest headlines. Please try again later.</p>';
+        }
+    };
+
+    // Fetch Breaking News
+    const fetchBreakingNews = async () => {
+        breakingNewsContainer.innerHTML = "";
+        addSkeletonLoaders(breakingNewsContainer);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}?type=breaking`);
+            if (!response.ok) throw new Error("Failed to fetch breaking news.");
+            const articles = await response.json();
+
+            removeSkeletonLoaders(breakingNewsContainer);
+
+            if (articles.length === 0) {
+                breakingNewsContainer.innerHTML = '<p class="text-center text-gray-500">No breaking news found.</p>';
+                return;
+            }
+
+            articles.forEach(article => {
+                const newCard = `
+                    <article class="bg-white  shadow-md rounded-lg overflow-hidden">
+                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
+                            <a href="${article.url || '#'}" class="text-blue-700 hover:underline">Read More</a>
+                        </div>
+                    </article>`;
+                breakingNewsContainer.insertAdjacentHTML('beforeend', newCard);
+            });
+        } catch (error) {
+            console.error(error.message);
+            breakingNewsContainer.innerHTML = '<p class="text-center text-red-500">Failed to load breaking news. Please try again later.</p>';
+        }
+    };
+
+    // Fetch Trending News
+    const fetchTrendingNews = async () => {
+        trendingNewsContainer.innerHTML = "";
+        addSkeletonLoaders(trendingNewsContainer);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}?type=trending`);
+            if (!response.ok) throw new Error("Failed to fetch trending news.");
+            const articles = await response.json();
+
+            removeSkeletonLoaders(trendingNewsContainer);
+
+            if (articles.length === 0) {
+                trendingNewsContainer.innerHTML = '<p class="text-center text-gray-500">No trending news found.</p>';
+                return;
+            }
+
+            articles.forEach(article => {
+                const newCard = `
+                    <article class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
+                            <a href="${article.url || '#'}" class="text-blue-700 hover:underline">Read More</a>
+                        </div>
+                    </article>`;
+                trendingNewsContainer.insertAdjacentHTML('beforeend', newCard);
+            });
+        } catch (error) {
+            console.error(error.message);
+            trendingNewsContainer.innerHTML = '<p class="text-center text-red-500">Failed to load trending news. Please try again later.</p>';
+        }
+    };
+
+    // Skeleton Loader
+    const addSkeletonLoaders = (container) => {
+        for (let i = 0; i < 3; i++) {
+            const skeleton = `
+                <div class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded-lg h-48 mb-6"></div>`;
+            container.insertAdjacentHTML("beforeend", skeleton);
+        }
+    };
+
+    const removeSkeletonLoaders = (container) => {
+        const loaders = container.querySelectorAll(".animate-pulse");
+        loaders.forEach((loader) => loader.remove());
+    };
+
+    // Initial Calls to Fetch News
+    fetchLatestHeadlines();
+    fetchBreakingNews();
+    fetchTrendingNews();
 });
