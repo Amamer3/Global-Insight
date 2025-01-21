@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Global Variables
     const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:5502/api/news"
-    : "https://your-production-domain.com/api/news";
+    : "https://global-insight.onrender.com/api/news";
 
     // News Containers
     const latestNewsContainer = document.getElementById("latest-news-container");
