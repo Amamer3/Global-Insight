@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
             articles.forEach(article => {
                 const newCard = `
                     <article class="bg-white shadow-md rounded-lg overflow-hidden">
-                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <img src="${article.imageUrl || 'https://placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
             articles.forEach(article => {
                 const newCard = `
                     <article class="bg-white  shadow-md rounded-lg overflow-hidden">
-                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <img src="${article.imageUrl || 'https://placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             articles.forEach(article => {
                 const newCard = `
                     <article class="bg-white shadow-md rounded-lg overflow-hidden">
-                        <img src="${article.imageUrl || 'https://via.placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
+                        <img src="${article.imageUrl || 'https://placeholder.com/300x200'}" alt="Headline" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <h3 class="text-xl font-semibold mb-2">${sanitizeHTML(article.title)}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${sanitizeHTML(article.body)}</p>
@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loaders.forEach((loader) => loader.remove());
     };
 
+    
     // Initial Calls to Fetch News
     fetchLatestHeadlines();
     fetchBreakingNews();
