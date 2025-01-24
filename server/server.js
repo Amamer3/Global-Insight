@@ -10,7 +10,10 @@ const PORT = process.env.PORT || 5502;
 
 // CORS Configuration
 const corsOptions = {
-    origin: ["http://127.0.0.1:5502", "http://localhost:5502"], // Allow requests from these origins
+    origin: [
+        "https://global-insight-zeta.vercel.app", // Your frontend URL
+        "http://localhost:5502", // Local development
+    ],
     methods: ["GET", "POST"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
     credentials: true, // Allow credentials (e.g., cookies)
