@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const API_BASE_URL =
         window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
             ? "http://localhost:5502/api/news" // Local backend
-            : "https://your-backend-service.onrender.com/api/news"; // Production backend
+            : "https://global-insight.onrender.com/api/news"; // Production backend
 
     let currentPage = 1; // Declare currentPage as a global variable
 
