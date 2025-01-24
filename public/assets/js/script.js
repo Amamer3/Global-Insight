@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Global Variables
+    const API_BASE_URL =
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+            ? "http://localhost:5502/api/news" // Local backend
+            : "https://your-backend-service.onrender.com/api/news"; // Production backend
+
+    let currentPage = 1; // Declare currentPage as a global variable
+
     // Sidebar Toggle
     const menuToggle = document.getElementById("menu-toggle");
     const mobileNav = document.getElementById("mobile-nav");
@@ -9,17 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuToggle?.addEventListener("click", openSidebar);
     closeNav?.addEventListener("click", closeSidebar);
-
-    // Global Variables
-    const API_BASE_URL =
-        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-            ? "http://localhost:5502/api/news" // Local backend
-            : "https://global-insight.onrender.com/api/news"; // Production backend
-
-    // News Containers
-    const latestNewsContainer = document.getElementById("latest-news-container");
-    const breakingNewsContainer = document.getElementById("breaking-news-container");
-    const trendingNewsContainer = document.getElementById("trending-news-container");
 
     // Scroll-to-Top Button
     const scrollToTopButton = createScrollToTopButton();
@@ -53,27 +50,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeLabelLight = document.getElementById("theme-label-light");
     const themeLabelDark = document.getElementById("theme-label-dark");
 
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-        const isDarkMode = document.body.classList.contains("dark");
-        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-        updateThemeToggle(isDarkMode);
-    });
+    if (themeToggle && themeToggleDot && themeLabelLight && themeLabelDark) {
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            const isDarkMode = document.body.classList.contains("dark");
+            localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+            updateThemeToggle(isDarkMode);
+        });
 
-    function updateThemeToggle(isDarkMode) {
-        themeToggleDot.style.transform = isDarkMode ? "translateX(24px)" : "translateX(0)";
-        themeLabelLight.classList.toggle("text-gray-900", !isDarkMode);
-        themeLabelLight.classList.toggle("text-gray-400", isDarkMode);
-        themeLabelDark.classList.toggle("text-gray-400", !isDarkMode);
-        themeLabelDark.classList.toggle("text-gray-900", isDarkMode);
+        // Check saved theme preference
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+            document.body.classList.add("dark");
+            updateThemeToggle(true);
+        }
     }
 
-    // Check saved theme preference
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-        document.body.classList.add("dark");
-        updateThemeToggle(true);
-    }
+    // News Containers
+    const latestNewsContainer = document.getElementById("latest-news-container");
+    const breakingNewsContainer = document.getElementById("breaking-news-container");
+    const trendingNewsContainer = document.getElementById("trending-news-container");
 
     // Initial Calls to Fetch News
     fetchNews("latest", latestNewsContainer);
@@ -84,15 +80,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const newsletterPopup = document.getElementById("newsletter-popup");
     const closePopupButton = document.getElementById("close-popup");
 
-    // Show popup after 5 seconds
-    setTimeout(() => {
-        newsletterPopup.classList.remove("hidden");
-    }, 5000);
+    if (newsletterPopup && closePopupButton) {
+        // Show popup after 5 seconds
+        setTimeout(() => {
+            newsletterPopup.classList.remove("hidden");
+        }, 5000);
 
-    // Close popup
-    closePopupButton.addEventListener("click", () => {
-        newsletterPopup.classList.add("hidden");
-    });
+        // Close popup
+        closePopupButton.addEventListener("click", () => {
+            newsletterPopup.classList.add("hidden");
+        });
+    }
 
     // Utility Functions
     function createScrollToTopButton() {
@@ -153,20 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
             </article>`;
     }
 
-    function addSkeletonLoaders(container) {
-        for (let i = 0; i < 3; i++) {
-            container.insertAdjacentHTML("beforeend", `<div class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded-lg h-48 mb-6"></div>`);
-        }
-    }
+    function updateThemeToggle(isDarkMode) {
+        const themeToggleDot = document.getElementById("theme-toggle-dot");
+        if (!themeToggleDot) return; // Exit if the element doesn't exist
 
-    function removeSkeletonLoaders(container) {
-        container.querySelectorAll(".animate-pulse").forEach(loader => loader.remove());
-    }
-
-    function sanitizeHTML(str) {
-        const temp = document.createElement("div");
-        temp.textContent = str;
-        return temp.innerHTML;
+        themeToggleDot.style.transform = isDarkMode ? "translateX(24px)" : "translateX(0)";
+        themeLabelLight.classList.toggle("text-gray-900", !isDarkMode);
+        themeLabelLight.classList.toggle("text-gray-400", isDarkMode);
+        themeLabelDark.classList.toggle("text-gray-400", !isDarkMode);
+        themeLabelDark.classList.toggle("text-gray-900", isDarkMode);
     }
 
     function debounce(func, wait) {
@@ -175,5 +168,11 @@ document.addEventListener("DOMContentLoaded", () => {
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(this, args), wait);
         };
+    }
+
+    function sanitizeHTML(str) {
+        const temp = document.createElement("div");
+        temp.textContent = str;
+        return temp.innerHTML;
     }
 });
