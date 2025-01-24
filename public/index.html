@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Global Insight: Your trusted source for the latest global headlines. Stay informed with breaking news, in-depth analysis, and more.">
+    <meta name="description" content="Global Insight: Your trusted source for the latest global headlines. Stay informed with breaking news, in-depth analysis, and more.">
     <meta property="og:title" content="Global Insight - Latest News">
     <meta property="og:description" content="Stay informed with breaking news and in-depth global insights.">
     <meta property="og:image" content="/path/to/featured-image.jpg">
-    <meta property="og:url" content="https://yourdomain.com">
+    <meta property="og:url" content="https://global-insight-zeta.vercel.app">
     <!-- favicons Icons -->
     <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" /> -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/Global Insight-favicon.webp" />
@@ -22,6 +21,11 @@
 </head>
 
 <body class="bg-gray-100 text-gray-900">
+
+    <!-- Loading Spinner -->
+<div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+</div>
 
     <!-- Top Bar -->
     <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm py-4">
@@ -94,13 +98,21 @@
 
 
             <!-- Theme Toggle -->
-            <!-- <div class="fixed bottom-4 right-4 flex items-center space-x-2">
-                <span id="theme-label-light" class="text-gray-900">Light</span>
-                <button id="theme-toggle" class="w-12 h-6 bg-gray-300 rounded-full flex items-center">
-                    <div id="theme-toggle-dot" class="w-5 h-5 bg-white rounded-full shadow-md"></div>
+            <div class="fixed bottom-4 right-4 flex items-center space-x-3">
+                <span id="theme-label-light" class="text-sm font-medium text-gray-600 transition-colors duration-300"></span>
+                <button id="theme-toggle" class="relative w-14 h-8 flex items-center justify-center bg-gray-200 rounded-full shadow-lg transition-all duration-500 ease-in-out">
+                    <!-- Eye icon container -->
+                    <div id="eye-icon" class="relative w-6 h-6 transition-all duration-500 ease-in-out">
+                        <!-- Eye outline -->
+                        <div class="absolute w-full h-full rounded-full border-2 border-gray-600"></div>
+                        <!-- Eye pupil -->
+                        <div id="eye-pupil" class="absolute w-3 h-3 bg-gray-600 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-in-out"></div>
+                        <!-- Eyelid (for closing effect) -->
+                        <div id="eyelid" class="absolute w-full h-1/2 bg-gray-200 rounded-t-full top-0 left-0 transform origin-bottom transition-all duration-500 ease-in-out"></div>
+                    </div>
                 </button>
-                <span id="theme-label-dark" class="text-gray-400">Dark</span>
-            </div> -->
+                <span id="theme-label-dark" class="text-sm font-medium text-gray-400 transition-colors duration-300"></span>
+            </div>
 
 
 
@@ -191,7 +203,18 @@
 
 
 
-
+<!-- Newsletter Popup -->
+<div id="newsletter-popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+        <p class="text-gray-600 mb-4">Stay updated with the latest news and insights.</p>
+        <form class="flex flex-col gap-4">
+            <input type="email" placeholder="Enter your email" class="p-2 border border-gray-300 rounded-lg" required>
+            <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800">Subscribe</button>
+        </form>
+        <button id="close-popup" class="mt-4 text-gray-600 hover:text-gray-900">No, thanks</button>
+    </div>
+</div>
 
     <!-- Hero Section -->
     <section class="bg-blue-100 py-10">

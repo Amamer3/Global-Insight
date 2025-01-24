@@ -11,6 +11,50 @@ body.dark {
     background-color: #1a202c;
     color: #f7fafc;
 }
+/* Dark Mode */
+.dark {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+
+.dark .bg-white {
+    background-color: #2d3748;
+    color: #e2e8f0;
+}
+
+.dark .text-gray-900 {
+    color: #e2e8f0;
+}
+
+.dark .text-gray-600 {
+    color: #cbd5e0;
+}
+
+.dark-mode #theme-toggle {
+    background-color: #4a5568;
+}
+
+.dark-mode #eye-icon {
+    border-color: #e5e7eb;
+}
+
+.dark-mode #eye-pupil {
+    background-color: #e5e7eb;
+}
+
+.dark-mode #eyelid {
+    background-color: #4a5568;
+}
+
+/* Eye toggle animations */
+#theme-toggle.active #eyelid {
+    transform: scaleY(0); /* Close the eyelid */
+}
+
+#theme-toggle.active #eye-pupil {
+    transform: translate(-50%, -50%) scale(0.8); /* Shrink the pupil */
+}
+
 
 /* Optional: Adjust label colors for clarity */
 .text-gray-400 {
@@ -35,3 +79,47 @@ body.dark {
     transition: transform 0.3s ease;
 }
 
+
+
+
+/* Loading Spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+
+
+/* Fade Animations */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* News Card Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.news-card {
+    animation: fadeIn 0.5s ease-in-out;
+}
